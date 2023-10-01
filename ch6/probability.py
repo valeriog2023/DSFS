@@ -42,3 +42,8 @@ print("P(both | older): ", both_girls / older_girl)
 # A: both girls
 # B: either is girl
 print("P(both | either): ", both_girls / either_girl)                
+# Bayes conditional probability theorem
+# 1) P(E|F) == P(E,F) / P(F) ==  P(F|E) * P(E) / P(F)
+# 2) P(F) = P(F|E) + P(F|not E)
+# => P(E|F) =  P(F|E) * P(E) / [ P(F|E) + P(F|not E) ]
+#
