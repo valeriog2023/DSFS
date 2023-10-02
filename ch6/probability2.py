@@ -20,10 +20,13 @@ def uniform_cdf(x:float) -> float:
     else: return 1        # probability max value is 
 
 points = np.arange(-1.0 ,2.0,0.01)
-values = [ uniform_pdf(float(x)) for x in points ]
+pdf_values = [ uniform_pdf(float(x)) for x in points ]
+cdf_values = [ uniform_cdf(float(x)) for x in points ]
 
-plt.plot(points,values)    # green solid line
-plt.title("Uniform Distribution - PDF")
+plt.plot(points,pdf_values, 'g',  label='pdf')    # green solid line
+plt.plot(points,cdf_values, 'r', label = 'cdf')    # red solid line
+plt.title("Uniform Distribution - PDF / CDF")
+plt.legend(loc='best')
 plt.show()
 
 
