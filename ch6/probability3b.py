@@ -12,13 +12,22 @@ import matplotlib.pyplot as plt
 #>>> norm.ppf([0.025,0.975])
 #array([-1.95996398,  1.95996398])
 #
-# opposite is norm.cdf -> gives the probability given the z value
+# opposite is norm.cdf -> gives the probability given the z value that x < Z (so the whole area on the left)
 # >>> norm.cdf(0)
 # 0.5
 #>>> norm.cdf(1)    -> also works for multiple values
 #array([0.15865525, 0.84134475])
-
-
+#
+# survival function  i.e. takes z score and returns 1 - cdf(z)
+# >>> norm().sf(0) 
+# 0.5
+#
+#
+# probability density function
+# >>> norm().pdf(0) # gives the actual value of the y for a normal distribution for a specific point
+# 0.3989422804014327  # max y value for standard normal distribution
+# >>> norm(0,0.5).pdf(0) # reducing the std deviation makes the point higher
+# 0.7978845608028654
 
 
 x1 = np.linspace(norm.ppf(0.01), norm.ppf(0.99), 100)
