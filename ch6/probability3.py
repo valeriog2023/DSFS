@@ -15,7 +15,7 @@ def normal_cdf(x: float, mu:float = 0, sigma: float =1) -> float:
 
 def inverse_normal_cdf(p: float, mu: float = 0, sigma: float = 1, tolerance: float = 0.00001, verbose:bool = False) -> float:
     """
-    This function will invert the cdf and return the probability value given a Z score
+    This function will invert the cdf and return the Z value given a probability so that P(z<=Z) = p
     It will use binary search to interate until the erro is under the tolerance value
     """
 
