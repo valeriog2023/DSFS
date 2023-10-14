@@ -31,6 +31,10 @@ for i in range(tests_number):
     p_hat = heads/sample_size
     sigma_hat = math.sqrt( (p_hat * (1 - p_hat))/sample_size )
     print(f"Got {heads} out of { sample_size}, p^ is {p_hat} and sigma^ is {sigma_hat}")    
+    #
+    # note I use here P hat instead of mu
+    # if I wanted to use mu, i.e. expected mu I can multiply by sample_size, i.e.
+    # normal_two_sided_bounds(confidence_level, p_hat*sample_size, sigma_hat*sample_size)
     lower_bound,upper_bound = normal_two_sided_bounds(confidence_level, p_hat, sigma_hat)
     print(f"actual expected mu: {actual_p}, sample lower/upper bound: ({lower_bound}/{upper_bound})")
     if lower_bound < actual_p < upper_bound:
