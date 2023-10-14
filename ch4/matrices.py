@@ -11,7 +11,7 @@ B = [[1, 2],     # B has 3 rows and 2 columns
      [3, 4],
      [5, 6]]
 
-d
+
 def shape(A: Matrix) -> Tuple[int, int]:
     """Returns (# of rows of A, # of columns of A)"""
     num_rows = len(A)
