@@ -4,12 +4,16 @@ from typing import Callable
 import sys
 sys.path.append("/home/vale6811/Desktop/oreilly/DSFS/ch4/")
 from vector import Vector,distance,scalar_multiply,add
+
 msg = """
 #
 # Here we test the gradient descent against the sum of sqaure function
 # Note that the sum of square function has an absolute minumum when
 # each element of v is zero
 """
+print(msg)
+
+
 def gradient_step(v: Vector, gradient: Vector, step_size: float) -> Vector:
     """
     This function taks as in input:
@@ -50,6 +54,8 @@ if __name__ == '__main__':
     # create a random vector size 3
     # the uniform function returns a random number between 2 values
     # 2 extremes included
+    print("Test 1. create a random vector in R3 wih components between -10 and 10")
+    print("Using the gradient of sum of squares function we reach the min of the function (0,0,0) ")
     initial_v = [ random.uniform(-10,10) for i in range(3) ]
     v = initial_v.copy()
     #
