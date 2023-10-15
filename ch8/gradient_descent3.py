@@ -82,13 +82,11 @@ if __name__ == '__main__':
     learning_rate_1 = 0.0001
     learning_rate_2 = 0.001
     learning_rate_3 = 0.01
-    tolerance = 0.0001
     print(f"Learning rate 1 is fixed: {learning_rate_1}")
     print(f"Learning rate 2 is fixed: {learning_rate_2}")
     print(f"Learning rate 3 is fixed: {learning_rate_3}")
-    print(f"Tolerance is {tolerance}")
     #
-    # max_epoch = 5000
+    # max_epoch = 20000
     max_epoch = 20000
     print(f"Starting model fit, max epoch is: {max_epoch} ")
     for epoch in range(max_epoch):
