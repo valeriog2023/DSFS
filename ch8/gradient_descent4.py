@@ -132,3 +132,5 @@ if __name__ == "__main__":
     print("   one step for each point")
     print("In our case, batches optimizes the search and in this very specific case taking the gradient for every time")
     print("will get quicker result but it's not always the case")
+    print("--------")
+    print("Note this is done from scratch so not optimized.. libraries can optimize the computation for you..")
