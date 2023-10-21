@@ -7,9 +7,9 @@ from vector import Vector,vector_mean
 
 #
 # let's create a dataset of points with a linear relationship between them
-actual_scope = 20
+actual_slope = 20
 actual_intercept = 5
-inputs =  [ (x, actual_scope * x + actual_intercept) for x in range(-50,50)]
+inputs =  [ (x, actual_slope * x + actual_intercept) for x in range(-50,50)]
 
 #
 # now we define a function that given a specific
@@ -61,7 +61,10 @@ def linear_gradient(x: float, y: float, theta: Vector) -> Vector:
     #
     residual_error = linear_residual(x,y,theta)
     #
-    # the gradient on slope and intercept is given by this (see note above)
+    # the gradient on slope and intercept is given by this formula (see note above)
+    # first one is the partial derivate for the slope
+    # second one is the partial derivate for the intercept
+    # in the point defined by residual error
     return [2 * residual_error * x, 2 * residual_error]
 
 
@@ -70,7 +73,7 @@ if __name__ == '__main__':
     # intro
     print("We want to identify the slope of a set of paired values artifically created")
     print(f"The set is done by {len(inputs)} points in the following relationship between them")
-    print(f"x, {actual_scope} * x + {actual_intercept}\n")
+    print(f"x, {actual_slope} * x + {actual_intercept}\n")
     #
     # random initial values for slope and intercept between -1 and 1
     theta_1 = [ random.uniform(-1,1), random.uniform(-50,50) ]
