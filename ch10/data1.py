@@ -4,7 +4,7 @@ import math
 import random
 import matplotlib.pyplot as plt
 import sys
-sys.path.append("/home/vale6811/Desktop/oreilly/DSFS/ch6/")
+sys.path.append("ch6/")
 from probability3 import inverse_normal_cdf
 from matplotlib import pyplot as plt
 
@@ -46,13 +46,13 @@ def plot_histogram(points: List[float], bucket_size: float, title: str=""):
     plt.title(title)
     plt.show()
 
-
-#
-# Let's create a list with random points between -100 and 100
-uniform_distribution = [200 * random.random() - 100 for _ in range(10000)]
-plot_histogram(uniform_distribution, 10, "Uniform Histogram")
-##
-#
-# same but with normal distribution
-normal_distribution = [57 * inverse_normal_cdf(random.random()) for _ in range(10000)]
-plot_histogram(normal_distribution, 10, "Normal Histogram")
+if __name__ == "__main__":
+    #
+    # Let's create a list with random points between -100 and 100
+    uniform_distribution = [200 * random.random() - 100 for _ in range(10000)]
+    plot_histogram(uniform_distribution, 10, "Uniform Histogram")
+    ##
+    #
+    # same but with normal distribution
+    normal_distribution = [57 * inverse_normal_cdf(random.random()) for _ in range(10000)]
+    plot_histogram(normal_distribution, 10, "Normal Histogram")
