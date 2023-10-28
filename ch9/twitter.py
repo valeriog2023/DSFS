@@ -3,6 +3,10 @@
 # access token and access token secret are going to be in ENV vars
 import os
 import webbrowser
+##############################################################
+# TWYTHON DOES NOT SUPPOER V2 API AND I HAVE NO ACCESS TO V1
+# SO MOVING TO USE TWEEPY (SEE TWITTER2.PY)
+#############################################################
 from twython import Twython # requires to be installed
 #
 # these tokens are used for oauth part
