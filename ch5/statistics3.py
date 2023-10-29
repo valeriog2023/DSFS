@@ -60,7 +60,7 @@ def covariance(xs:List[float], ys:List[float]) -> float:
     xs_zero_mean = de_mean(xs)
     ys_zero_mean = de_mean(ys)
 
-    return sum([xs_zero_mean[i] * ys_zero_mean[i] for i in range(len(xs)) ]) / len(xs)
+    return float(sum([xs_zero_mean[i] * ys_zero_mean[i] for i in range(len(xs)) ])) / len(xs)
 
 
 def correlation(xs:List[float],ys:List[float]) -> float:
