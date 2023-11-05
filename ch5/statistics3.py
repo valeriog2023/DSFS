@@ -18,19 +18,43 @@ def de_mean(xs:List[float]) ->List[float]:
     return [x-xs_mean for x in xs]
 
 
-def variance(xs: List[float])-> float:
+def variance(xs: List[float], sample:bool=False, verbose:bool=False)-> float:
     """This function gets as input a List of float
        and returns a float which represents the standard deviation
+
+       Note: that if we are using this method to get the standard deviation
+             for a population, we divide the sum of squares by the number of elements
+             if this is for a sample of the population, we divide by the sample length -1
+             to get an unbiased measure
     """
     xs_mean = mean(xs)
+    sample_std = sum([ (x-xs_mean)**2 for x in xs ]) / (len(xs) -1)
+    population_std = sum([ (x-xs_mean)**2 for x in xs ]) / len(xs)
+    if verbose:
+        print(f"input is {xs}")
+        print(f"mean is {xs_mean}")
+        print(f"sample standard deviation is {sample_std}")
+        print(f"population standard deviation is {population_std}")
     # Note: using here ** instead of ^ as the latter only supports int
-    return sum([ (x-xs_mean)**2 for x in xs ]) / len(xs)
+    if sample:
+        return sample_std
+    else:
+        return population_std
 
-def standard_deviation(xs: List[float]) -> float:
+
+def standard_deviation(xs: List[float], sample:bool=False, verbose:bool=False) -> float:
     """This function gets as input a List of float
        and returns a float which represents the standard deviation
+
+       Note: if we want the standard deviation for a sample we need to
+             use sample: true, this will fix the variance and make the
+             statistics unbiased
     """
-    return math.sqrt(variance(xs))
+    v = variance(xs, sample=sample, verbose=verbose)
+    if verbose:
+        print(f"input is {xs}")
+        print(f"variance is: {v}")
+    return math.sqrt(v)
 
 test1 = [2,4,6]
 test2 = [1,2,4,6,7]
@@ -54,7 +78,7 @@ def covariance(xs:List[float], ys:List[float]) -> float:
     xs = [x1,x2,x3], get the mean and subtract it from every element in xs
     ys = [y1,y2,y3], get the mean and subtract it from every element in ys
 
-    Returns:    (xs_zero_mean dot_product ys_zero_mean) / N 
+    Returns:    (xs_zero_mean dot_product ys_zero_mean) / N
     """
     assert len(xs) == len(ys), "the two lists have different size.. can't get covariance"
     xs_zero_mean = de_mean(xs)
