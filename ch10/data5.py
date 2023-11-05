@@ -179,4 +179,37 @@ max_change = max(all_changes, key=lambda x: x.pct_change)
 min_change = min(all_changes, key=lambda x: x.pct_change)
 print(f"Max change is for: {max_change}")
 print(f"Min change is for: {min_change}")
+#
+# now we can reuse this dataset to find for instance wich is the month
+# with the higher average return
+changes_by_month:Dict[int,DailyChange] = { month: [] for month in range(1,13) }
+#
+# assign each change to a month
+for change in all_changes:
+    changes_by_month[change.date.month].append(change)
+#
+# find the daily average for each month and the best month
+avg_daily_change_per_month = { month: (sum(change.pct_change for change in changes)) / len(changes)
+                                      if  len(changes) != 0 else 0
+                               for month,changes in changes_by_month.items()
+                             }
+print("Month and their daily average")
+pprint.pprint(avg_daily_change_per_month)
+print("note this is not per symbol..")
+#
+# so we do it per symbol too
+change_per_month_per_symbol = { month: defaultdict(list) for month in range(1,13) }
+avg_change_per_month_per_symbol = { month: defaultdict(list) for month in range(1,13) }
+for change in all_changes:
+    change_per_month_per_symbol[change.date.month][change.symbol].append(change.pct_change)
+for month, values in change_per_month_per_symbol.items():
+    for symbol,changes in values.items():
+        avg_change_per_month_per_symbol[month][symbol] = (sum(pct_change for pct_change in changes)/len(changes)) if len(changes) != 0 else 0
+
+print("So we now do it per symbol..")
+pprint.pprint(avg_change_per_month_per_symbol)
+
+
+
+
 
