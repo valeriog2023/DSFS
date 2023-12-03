@@ -11,7 +11,10 @@
 # it's probably more likely to be used when you have a lot more dimensions
 import sys
 sys.path.append("ch4/")
-from vector import subtract,Vector, vector_mean, magnitude, dot
+sys.path.append("ch8/")
+from vector import subtract,Vector, vector_mean, magnitude, dot, scalar_multiply, subtract
+from gradient_descent2 import gradient_step
+import tqdm
 from typing import List
 
 def de_mean(data:List[Vector], verbose:bool=False) -> List[Vector]:
@@ -72,10 +75,74 @@ def directional_variance(data: List[Vector], w:Vector) -> float:
 def directional_variance_gradient(data:List[Vector], w:Vector) -> Vector:
     """
     This gives the gradient of directional variance with respect to w
+    Each v is a point in a multidimensional space so we run the dot product
+    in w direction (to get the component in that direction)
+    The magintude of the move is 2*v[i] (derivative of variance which is quadaratic)
+
+    The function returns, for each data vector v and direction w, a new vector which
+    is the gradient in that data point  
     """
     w_dir = direction(w)
-    return [ sum(2 * dot(v, w_dir))]
+    return [ sum(2 * dot(v, w_dir) * v[i] ) for v in data  for i in range(len(w)) ]
 
 #
-# stopping here for the moment..
-# this requires lagrange multipliers and eigenvectors/eigen values
+# Now, in order to find the Principal component analysis we need to find the direction
+# where we have the maximum of the variance
+# the idea is that we can possibly reduce the dimensionality of the data and consider
+# only the data covered in that direction or
+# run the process multiple time:
+# - find the principal comonent direction
+# - remove the component in that direction
+# - find the new peincipal componet direction in the remaining data
+# - etc..
+
+def first_principal_component(data: List[Vector],
+                              n: int = 100,
+                              step_size: float = 0.1) -> Vector:
+    """This method runs a gradient descent from an aribtrary point/direction W with all 1.0 
+       This is the initial direction that we use and against which we compute 
+       the data variance 
+       It runs n steps and in each step:
+       - computes the directional variance in the point P
+       - computes the gradient of the directional variance in P
+       - moves one step 
+           - of size: step_size 
+           - from the point P 
+           - along the direction of the gradient of the directional variance in P
+       - repeats using the new point/direction as W
+       At the end the function returns the direction of W    
+    """
+    guess = [ 1.0 for _ in data[0]]
+
+    print(f"Start with guess: {guess} for {n} steps")
+    with tqdm.trange(n) as t:
+        print(f"T is {t}")
+        for _ in t:
+            dv = directional_variance(data, guess)
+            gradient = directional_variance_gradient(data, guess)
+            # new direction
+            guess = gradient_step(guess, gradient, step_size)
+            # we printout the directional variance
+            # we rey to find the direction with greatest directional variance
+            t.set_description(f"dv: {dv:.3f}")
+    return direction(guess)        
+
+# Now that we have the direction of the first principal component
+# we can project the data against it
+def project(v:Vector, w:Vector)-> Vector:
+    """Projects v over w, returns a vector in the W direction
+       The magintude is given by dot(v,w)
+    """
+    magnitude = dot(v,w)
+    return scalar_multiply(magnitude,w)
+
+# for further components analysis, we 
+# remove the projction from teh data
+# and repeat the steps
+def remove_projection_from_vector(v: Vector, w:Vector)-> Vector:
+    """subtract projection of v over w, from v"""
+    return subtract(v, project(v,w))
+
+def remove_projection(data:List[Vector], w:Vector) -> List[Vector]:
+    """Remvoe the projection of v over w from every v in data"""
+    return [ remove_projection_from_vector(v,w) for v in data ]
