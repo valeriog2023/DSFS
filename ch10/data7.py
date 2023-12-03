@@ -146,3 +146,39 @@ def remove_projection_from_vector(v: Vector, w:Vector)-> Vector:
 def remove_projection(data:List[Vector], w:Vector) -> List[Vector]:
     """Remvoe the projection of v over w from every v in data"""
     return [ remove_projection_from_vector(v,w) for v in data ]
+
+#
+# Note this finds a predefined number of components
+def pca(data: List[Vector], num_components: int) -> List[Vector]:
+    """This finds a finite number of components: num_components for the data passed
+       It returns a list of vector that are the directions of each component
+    """
+    components = []
+    for _ in range(num_components):
+        component = first_principal_component(data)
+        components.append(component)
+        data = remove_projection(data,component)
+    return components
+    
+
+#
+# Here we transfor the data based on the components found
+def transform_vector(v: Vector, components:List[Vector]) -> List[Vector]:
+    """This runs the projection of the vector v along the components
+       returns a list of vectors (all the projections) 
+    """
+    return [ dot(v,w) for w in components ]
+
+def transform(data:List[Vector], components: List[Vector]) -> List[Vector]:
+    """For each v in data, this creates the projections along the components
+       and return them all
+       if we start we 10 data vectors and 2 components, the function will
+       return 20 vectors note that they will be nested so
+       it will actually return a list of 10 elements, each element is the list
+       of vectors given by the projections
+    """
+    return [ transform_vector(v,components) for v in data ]
+
+# Unfortunately there is no mention of the dataset used in the book.. so can't really test this here
+# however it's maybe going to be used later in the book
+# notes: scikit-learn implments all these methods
