@@ -1,5 +1,5 @@
 ######################################################################
-# If the data  shows vairation across a dimension more than others
+# If the data  shows variation across a dimension more than others
 # we can use an approach for dimensionality reduction
 # the technique is called:
 #
@@ -93,7 +93,7 @@ def directional_variance_gradient(data:List[Vector], w:Vector) -> Vector:
 # run the process multiple time:
 # - find the principal comonent direction
 # - remove the component in that direction
-# - find the new peincipal componet direction in the remaining data
+# - find the new principal componet direction in the remaining data
 # - etc..
 
 def first_principal_component(data: List[Vector],
