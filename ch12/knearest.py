@@ -2,6 +2,8 @@
 import sys
 from collections import Counter
 from typing import List, NamedTuple
+sys.path.append("/home/vale6811/Desktop/oreilly/DSFS/ch4/")
+from vector import Vector,distance
 
 def raw_majority_vote(labels: List[str]) -> str:
     """Given a List of N strings (with duplicates) that represents
@@ -10,7 +12,7 @@ def raw_majority_vote(labels: List[str]) -> str:
 
        Note: in case of a tie, the first label met among the ones with the
        highest count is returned
-       e.g. 
+       e.g.
        'a','b','a','c' -> returns 'a'
        'a','b','a','b','c' -> returns 'a'
        'b','a','b','a','c' -> returns 'b'
@@ -28,7 +30,7 @@ assert raw_majority_vote(['a','b','c','b']) == 'b'
 assert raw_majority_vote(['a','b','a','b']) == 'a'
 
 # If we have a tie we take care of it here
-# Options are: 
+# Options are:
 # - pick a winner at random
 # - weight the votes by distance
 # - reduce K until we find a unique winner
@@ -41,15 +43,15 @@ def majority_vote(labels: List[str], debug:bool=False) -> str:
        - it assumes that labels are ordered from nearestto farthest
          i.e. the first entry in the list is the one of the closest neighbour
        - if there is a tie it will
-          - remove one neighbour from the dataset (the more dstant one) 
-          - call itself recursively 
+          - remove one neighbour from the dataset (the more dstant one)
+          - call itself recursively
     """
     vote_counts = Counter(labels)
     if debug:
         print(f"labels list: {labels}")
     # this time we get both the winner and the # of votes
     winner, winner_count = vote_counts.most_common(1)[0]
-    num_winners = len([count for count in vote_counts.values() 
+    num_winners = len([count for count in vote_counts.values()
                        if count == winner_count]
                       )
     if debug:
@@ -65,3 +67,31 @@ def majority_vote(labels: List[str], debug:bool=False) -> str:
 assert majority_vote(['a','b','c','a']) == 'a'
 assert majority_vote(['a','b','c','a','b']) == 'a'
 assert majority_vote(['a','b','b','a']) == 'b'
+
+#
+# Now we create a classifier
+#
+# first define a Tuple with a label and a point from dataset
+class LabeledPoint(NamedTuple):
+    label: str
+    point: Vector
+
+
+def knn_classify(k: int, labeled_points: List[LabeledPoint],
+                 new_point: Vector) -> str:
+    """This function gets as input
+       k: <int> the number of neighbours to consider
+       labeled_points: <List[LabeledPoint]> the list ofLabeled points we have
+       new_point: <Vector> a new point without Label
+
+       The function will return the label for the new point
+    """
+    #
+    # let's sort the point by distance to the new point    
+    sorted_points = sorted(labeled_points, 
+                           key=lambda p: distance(new_point,p.point) ) 
+    #
+    # find the labels of the nearest points
+    # and return the most common
+    k_nearest_labels = [ p.label for p in sorted_points[:k]]
+    return majority_vote(k_nearest_labels)
