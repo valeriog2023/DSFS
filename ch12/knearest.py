@@ -1,8 +1,11 @@
 #!/usr/bin/env python
 import sys
-from collections import Counter
-from typing import List, NamedTuple
-sys.path.append("/home/vale6811/Desktop/oreilly/DSFS/ch4/")
+from collections import Counter,defaultdict
+from typing import List, NamedTuple, Dict
+import os
+import csv
+current_path = os.path.abspath(".")
+sys.path.append(f"{current_path}/ch4/")
 from vector import Vector,distance
 
 def raw_majority_vote(labels: List[str]) -> str:
@@ -95,3 +98,42 @@ def knn_classify(k: int, labeled_points: List[LabeledPoint],
     # and return the most common
     k_nearest_labels = [ p.label for p in sorted_points[:k]]
     return majority_vote(k_nearest_labels)
+#
+#########################################################
+#    PART TWO
+#########################################################
+#
+# The next part requires a dataset setup
+# The file is now available in the data_sets folder 
+# the following (now commented) were used to download the file
+# import requests
+# data = requests.get("https://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data")
+# with open("data_files/iris.dat","w") as f:
+#    f.write(data.text)
+#
+# data is in csv format; columns are
+# sepal_length, sepal_width, petal_length, petal_width, class
+# the datset however has no headers
+# e.g 5.0,3.6,1.4,0.2,Iris-setosa
+ 
+def parse_iris_row(row: List[str]) -> LabeledPoint:
+    """ this function gets as input a list of string from the iris dataset
+        and returns an object of the named Typle Class Labeled Point
+        the last element of the list is assigned to the label while
+        the previous values create the data point vector
+        e.g
+        5.0,3.6,1.4,0.2,Iris-setosa
+        label = setosa
+        vector = [5.0,3.6,1.4,0.2]
+    """
+    measures = [ float(x) for x in row[:-1]]
+    label = row[-1].split("-")[-1]
+    #
+    return LabeledPoint(measures,label)
+
+
+with open("data_files/iris.dat","r") as f:
+    reader = csv.reader(f)
+    # we create a list of Labeled Points
+    # we also skip empty lines
+    iris_data = [ parse_iris_row(row) for row in reader if row ]

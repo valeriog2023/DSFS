@@ -11,3 +11,6 @@ Becasue datapoints are usually vectors we can use Eucldean distance<p>
  - pick a winner at random
  - weight the votes by distance
  - reduce K until we find a unique winner
+
+ Note:
+ ML DATASETS are available here: https://archive.ics.uci.edu
