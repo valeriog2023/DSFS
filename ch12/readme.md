@@ -12,5 +12,17 @@ Becasue datapoints are usually vectors we can use Eucldean distance<p>
  - weight the votes by distance
  - reduce K until we find a unique winner
 
- Note:
- ML DATASETS are available here: https://archive.ics.uci.edu
+&nbsp;  
+&nbsp;
+&nbsp;
+The file: 
+ - knearest1.py will 
+    - implement the basic functions (including the classifier)
+    - load the dataset
+    - plot the iris datase
+ - knearest2.py will split the dataset into training and test and run the classifier
+
+&nbsp;
+**Note:**  
+ML DATASETS are available here: https://archive.ics.uci.edu
+

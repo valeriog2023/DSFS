@@ -179,8 +179,5 @@ if __name__ == '__main__':
                 ys = [ p[j] for p in points ]
                 ax[row][column].scatter(xs,ys, marker=mark, label=species)
     
-    
-    
-    
     plt.show()
     
