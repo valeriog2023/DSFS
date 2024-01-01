@@ -123,13 +123,13 @@ def parse_iris_row(row: List[str]) -> LabeledPoint:
         the previous values create the data point vector
         e.g
         5.0,3.6,1.4,0.2,Iris-setosa
-        label = setosa
+        label = setosa (other options are versicolor and virginica)
         vector = [5.0,3.6,1.4,0.2]
     """
     measures = [ float(x) for x in row[:-1]]
     label = row[-1].split("-")[-1]
     #
-    return LabeledPoint(measures,label)
+    return LabeledPoint(label,measures)
 
 
 with open("data_files/iris.dat","r") as f:
@@ -137,3 +137,50 @@ with open("data_files/iris.dat","r") as f:
     # we create a list of Labeled Points
     # we also skip empty lines
     iris_data = [ parse_iris_row(row) for row in reader if row ]
+
+#
+# this is to order the points by species
+points_by_species: Dict[str, List[Vector]] = defaultdict(list)
+for iris in iris_data:
+    points_by_species[iris.label].append(iris.point) 
+    
+
+# run the next part only if we call the file directly
+if __name__ == '__main__':    
+    #
+    # The data points describe a 4 dimensional space so it is difficult to plot them
+    # all in the same graph
+    # we can however graph the pairs which in this case are (n*(n-1))/2 = (4*3)/2 = 6
+    from matplotlib import pyplot as plt
+    metrics = ['sepal_length', 'sepal_width', 'petal_length', 'petal_width']
+    # this creates the 6 pairs combinatinos (1,2),(1,3),(1,4),(2,3),(2,4),(3,4)
+    pairs_combinations = [ (i,j) for i in range(4) for j in range(4) if i < j ] 
+    # we have 3 possible labels: setosa,virginica,versicolor so we use 3 
+    # makers
+    marks = [ '+', '.', 'x' ]
+    #
+    # now we create the graph (with 6 subplots: 2 rows x 3 columns)
+    fig, ax = plt.subplots(2,3)
+    fig.set_figheight(9)
+    fig.set_figwidth(12)
+    for row in range(2):
+        for column in range(3):
+            # this just return one of the possible combinations
+            i,j = pairs_combinations[ (row*3) + column ]
+            ax[row][column].set_title(f"{metrics[i]} vs {metrics[j]}", fontsize=8)
+            ax[row][column].set_xticks([])
+            ax[row][column].set_yticks([])
+            #
+            # we have 3 species (dict keys) and 3 markers so we zip them together
+            # the result is (mark, species, list of points)
+            for mark, (species, points) in zip(marks,points_by_species.items()):
+                # here we create x and y values for each species (note species is singular..)
+                xs = [ p[i] for p in points ]
+                ys = [ p[j] for p in points ]
+                ax[row][column].scatter(xs,ys, marker=mark, label=species)
+    
+    
+    
+    
+    plt.show()
+    
