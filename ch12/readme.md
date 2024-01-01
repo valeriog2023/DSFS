@@ -21,7 +21,8 @@ The file:
     - load the dataset
     - plot the iris datase
  - knearest2.py will split the dataset into training and test and run the classifier
-
+ - kneares3.py will run some test to show the "curse of Dimensionality"
+ 
 &nbsp;
 **Note:**  
 ML DATASETS are available here: https://archive.ics.uci.edu
