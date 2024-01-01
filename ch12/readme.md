@@ -21,8 +21,15 @@ The file:
     - load the dataset
     - plot the iris datase
  - knearest2.py will split the dataset into training and test and run the classifier
- - kneares3.py will run some test to show the "curse of Dimensionality"
- 
+ - kneares3.py will run some test to show the **"curse of Dimensionality"**
+   In a lowest dimension space, the closest points tend to be much closer than
+   than the average distance (so the process of checking the neighbours makes sense)
+   However as the number of dimensions grow, the distance tends to get close to the
+   average so the method does not mean much anymore
+   Another way to think about that is the density of the sample in the space; as the
+   number of dimensions grow, the density gets lower.
+   
+
 &nbsp;
 **Note:**  
 ML DATASETS are available here: https://archive.ics.uci.edu
